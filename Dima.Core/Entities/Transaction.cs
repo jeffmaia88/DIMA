@@ -22,5 +22,7 @@ namespace Dima.Core.Entities
         public long CategoryId { get; set; }
         public Category Category { get; set; } = null!;
 
+        public string UserId { get; set; } = string.Empty;
+
     }
 }
