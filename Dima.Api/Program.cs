@@ -1,6 +1,11 @@
 using Dima.Api.Data;
 using Dima.Core.Entities;
+using Dima.Core.Requests.Categories;
+using Dima.Core.Requests;
+using Dima.Core.Responses;
 using Microsoft.EntityFrameworkCore;
+using Dima.Core.Handlers;
+using Dima.Api.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +29,8 @@ builder.Services.AddSwaggerGen(x =>
     x.CustomSchemaIds(n => n.FullName);
 });
 
-builder.Services.AddTransient<Handler>();
+
+builder.Services.AddTransient<ICategoryHandler,CategoryHandler>();
 
 var app = builder.Build();
 
@@ -35,47 +41,39 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.MapGet("/", () => "Hello World!");
-app.MapPost("/v1/categories", (Request request, Handler handler) => handler.Handle(request))
+//app.MapGet("/", () => "Hello World!");
+app.MapPost("/v1/categories", async (CreateCategoryRequest request, ICategoryHandler handler) => await handler.CreateAsync(request))
                                  .WithName("Categories: Create")
                                  .WithSummary("Cria uma nova categoria")
-                                 .Produces<Response>();
+                                 .Produces<Response<Category>>();
+
+app.MapPut("/v1/categories/{id}", async (long id, UpdateCategoryRequest request, ICategoryHandler handler) =>
+                                        {
+                                            request.Id = id; 
+                                            return await handler.UpdateAsync(request);
+                                        }).WithName("Categories: Update")
+                                          .WithSummary("Atualiza uma categoria existente")
+                                          .Produces<Response<Category>>();
+
+app.MapDelete("v1/categories/{id}", async (long id, ICategoryHandler handler) =>
+                                           {
+                                               var request = new DeleteCategoryRequest
+                                               {
+                                                   Id = id
+                                               };                                               
+                                                return await handler.DeleteAsync(request);
+                                            })
+                                             .WithName("Categories: Delete")
+                                             .WithSummary("Deleta uma categoria existente")
+                                             .Produces<Response<Category>>();
+
+
 
 
 app.Run();
 
 
-public class Request
-{
-    public  string Title { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-}
 
 
-public class Response
-{
-    public long Id { get; set; }
-    public string Title{ get; set; } = string.Empty;
 
-}
 
-public class Handler(AppDbContext context)
-{
-    public Response Handle(Request request)
-    {
-        var category = new Category
-        {
-            Title = request.Title,
-            Description = request.Description,
-        };
-
-        context.Categories.Add(category);
-        context.SaveChanges();
-
-        return new Response
-        {
-            Id = 1,
-            Title = request.Title
-        };
-    }
-}
