@@ -19,20 +19,20 @@ namespace Dima.Api.Handlers
                     UserId = request.UserId,
                     Title = request.Title,
                     Description = request.Description
-                };  
+                };
 
                 await context.Categories.AddAsync(category);
                 await context.SaveChangesAsync();
 
-                return new Response<Category?>(category, 201,"Categoria Criada com Sucesso");
+                return new Response<Category?>(category, 201, "Categoria Criada com Sucesso");
 
             }
             catch
             {
-               return new Response<Category?>(null, 500, "Erro ao criar categoria");
+                return new Response<Category?>(null, 500, "Erro ao criar categoria");
             }
-            
-            
+
+
 
         }
 
@@ -57,24 +57,42 @@ namespace Dima.Api.Handlers
             }
         }
 
-        public async Task<Response<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
+        public async Task<PagedResponse<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
+        {
+            
+            try
+            {
+                var categories = await context.Categories.AsNoTracking()
+                                                         .Where(c => c.UserId == request.UserId) // pode quebrar aqui tbm
+                                                         .Skip((request.PageNumber - 1) * request.PageSize)
+                                                         .Take(request.PageSize)
+                                                         .ToListAsync();
+
+                var count = await context.Categories
+                                         .AsNoTracking()
+                                         .Where (x => x.UserId == request.UserId)
+                                         .OrderBy(x => x.Title)// pode dar erro aqui
+                                         .CountAsync();
+
+                return new PagedResponse<List<Category>>(categories, count, request.PageNumber, request.PageSize);
+            }
+            catch
+            {
+                return new PagedResponse<List<Category>>(null, 500, "Erro ao buscar categorias");
+            }
+
+            
+
+       
+
+            
+
+        }
+
+        public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
         {
             try
             {
-                var categories = await context.Categories.AsNoTracking().Where(c => c.UserId == request.UserId).ToListAsync();
-                return new Response<List<Category>>(categories);
-            }
-            catch
-            { 
-                return new Response<List<Category>>(new List<Category>(), 500, "Erro ao buscar categorias");
-            }
-            
-        }
-
-        public  async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
-        {
-            try
-            { 
                 var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == request.Id);
                 if (category is null)
                 {
