@@ -41,7 +41,7 @@ namespace Dima.Api.Handlers
             try
             {
                 var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == request.Id && c.UserId == request.UserId);
-                if (category == null)
+                if (category is null)
                 {
                     return new Response<Category?>(null, 404, "Categoria não encontrada");
                 }
@@ -75,8 +75,8 @@ namespace Dima.Api.Handlers
         {
             try
             { 
-                var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == request.Id && c.UserId == request.UserId);
-                if (category == null)
+                var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.Id == request.Id);
+                if (category is null)
                 {
                     return new Response<Category?>(null, 404, "Categoria não encontrada");
                 }
@@ -95,26 +95,25 @@ namespace Dima.Api.Handlers
         {
             try
             {
-                var category = await context.Categories.AsNoTracking().FirstOrDefaultAsync(c=> c.Id == request.Id && c.UserId == request.UserId );
-                if (category == null)
-                {
+                var category = await context
+                    .Categories
+                    .FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if (category is null)
                     return new Response<Category?>(null, 404, "Categoria não encontrada");
-                }
 
                 category.Title = request.Title;
                 category.Description = request.Description;
 
                 context.Categories.Update(category);
                 await context.SaveChangesAsync();
+
                 return new Response<Category?>(category, message: "Categoria atualizada com sucesso");
-
             }
-            catch 
-            { 
-                return new Response<Category?>(null, 500, "Erro ao atualizar categoria");
+            catch
+            {
+                return new Response<Category?>(null, 500, "Não foi possível alterar a categoria");
             }
-
-
         }
 
     }
