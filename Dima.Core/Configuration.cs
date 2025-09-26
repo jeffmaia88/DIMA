@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dima.Core
 {
-    public static class Configurations
+    public static class Configuration
     {
         public const int DefaultStatusCode = 200;
         public const int DefaultPageNumber = 1;
