@@ -27,3 +27,8 @@ namespace Dima.Api.Endpoints
         }
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe de extensão para WebApplication, permite que o método MapEndpoints() chame TEndpoint.Map(app) de forma genérica, sem precisar saber os detalhes de cada endpoint.
+
+

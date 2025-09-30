@@ -13,3 +13,6 @@ public class UpdateCategoryRequest : Request
     [Required(ErrorMessage = "Descrição inválida")]
     public string? Description { get; set; }
 }
+
+//Comentários para meu controle pessoal
+//Classe que possui os parametros que será exibidos no FrontEnd no endpoint Update

@@ -18,8 +18,10 @@ namespace Dima.Api.Endpoints.Categories
                .WithOrder(1)
                .Produces<Response<Category?>>();
         }
-        
 
+        //herda da Interface IEndpoint, aqui implementa o que será mostrado no FrontEnd
+        
+        //método que funciona como controller
         private static async Task<IResult> HandleAsync([FromServices]ICategoryHandler handler, [FromBody] CreateCategoryRequest request)
         {
             request.UserId = "jeff@balta.io";
@@ -43,3 +45,4 @@ namespace Dima.Api.Endpoints.Categories
     
     }
 }
+

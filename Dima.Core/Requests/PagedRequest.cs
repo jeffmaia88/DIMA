@@ -12,3 +12,6 @@ namespace Dima.Core.Requests
         public int PageSize { get; set; } = Configuration.DefaultPageSize;
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe com parametros para Paginação

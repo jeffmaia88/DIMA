@@ -11,3 +11,6 @@ namespace Dima.Core.Requests.Categories
         public long Id { get; set; }
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe que possui os parametros que será exibidos no FrontEnd no endpoint Delete

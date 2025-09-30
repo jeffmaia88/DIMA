@@ -11,3 +11,6 @@ namespace Dima.Core.Requests
         public string UserId { get; set; } = string.Empty;
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe base para qualquer request, elas herdam sempre esse UserId

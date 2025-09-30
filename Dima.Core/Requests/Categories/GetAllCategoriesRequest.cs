@@ -11,3 +11,5 @@ namespace Dima.Core.Requests.Categories
 
     }
 }
+//Comentários para meu controle pessoal
+//Classe que possui os parametros que será exibidos no FrontEnd no endpoint GEtALL

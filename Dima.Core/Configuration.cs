@@ -13,3 +13,6 @@ namespace Dima.Core
         public const int DefaultPageSize = 25;
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe que implementa valores fixos para dados de paginação

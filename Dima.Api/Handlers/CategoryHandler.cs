@@ -136,3 +136,7 @@ namespace Dima.Api.Handlers
 
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe que funciona como Services e Repositories, aplica regra de negocios, e persiste dados no banco.
+// é chamada pela HandleAsync em cada endpoint via injeção de dependencia.

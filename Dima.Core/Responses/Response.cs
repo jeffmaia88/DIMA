@@ -10,6 +10,8 @@ public class Response<TData>
     public Response()
         => _code = Configuration.DefaultStatusCode;
 
+    // aqui ele recebe os valores quando a classe é chamada no endpoint ex: return new Response<Category?>(category, 201, "Categoria Criada com Sucesso");
+
     public Response(TData? data, int code = Configuration.DefaultStatusCode, string? message = null)
     {
         Data = data;

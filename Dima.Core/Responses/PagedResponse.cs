@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Dima.Core.Responses
 {
+    //TipoGenérico, pq ele vai servir tanto para listar categorias, transações etc.
     public class PagedResponse<TData> : Response<TData>
     {
         [JsonConstructor]
-        public PagedResponse(TData? data, int totalCount,int currentPage = Configuration.DefaultPageNumber,int pageSize = Configuration.DefaultPageSize) : base(data)
+        public PagedResponse(TData? data, int totalCount, int currentPage = Configuration.DefaultPageNumber, int pageSize = Configuration.DefaultPageSize) : base(data)
         {
             Data = data;
             TotalCount = totalCount;
@@ -18,9 +19,9 @@ namespace Dima.Core.Responses
             PageSize = pageSize;
         }
 
-        public PagedResponse(TData? data,int code = Configuration.DefaultStatusCode, string? message = null) : base(data,code, message) 
+        public PagedResponse(TData? data, int code = Configuration.DefaultStatusCode, string? message = null) : base(data, code, message)
         {
-            
+
         }
 
 
@@ -30,3 +31,6 @@ namespace Dima.Core.Responses
         public int TotalCount { get; set; }
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe que possui Resposta no FrontEnd as requisições dos endpoints. No caso aqui, se refere a paginação no método GetAll

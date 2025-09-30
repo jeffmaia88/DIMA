@@ -15,3 +15,6 @@ namespace Dima.Core.Entities
 
     }
 }
+
+//Comentários para meu controle pessoal
+//Classe de Entidades
