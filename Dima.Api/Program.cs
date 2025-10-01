@@ -40,6 +40,9 @@ builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -47,6 +50,9 @@ if (app.Environment.IsDevelopment())
 
     app.MapGet("/", () => new { message = "OK" });
     app.MapEndpoints();
+    app.MapGroup("v1/identity").WithName("v1/identity").MapIdentityApi<User>();
+       
+
 }
     
 
