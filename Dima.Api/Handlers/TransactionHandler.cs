@@ -78,7 +78,7 @@ namespace Dima.Api.Handlers
             }
         }
 
-        public async Task<PagedResponse<List<Transaction>?>> GetByPeriodAsync(GetTransactionByPeriodRequest request)
+        public async Task<PagedResponse<List<Transaction>?>> GetByPeriodAsync(GetTransactionsByPeriodRequest request)
         {
             try
             {

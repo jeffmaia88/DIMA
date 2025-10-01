@@ -25,7 +25,7 @@ namespace Dima.Api.Endpoints.Transactions
                                                        [FromQuery] int pageNumber = Configuration.DefaultPageNumber,
                                                        [FromQuery] int pageSize = Configuration.DefaultPageSize)
         {
-            var request = new GetTransactionByPeriodRequest
+            var request = new GetTransactionsByPeriodRequest
             {
                 UserId = "jeff@balta.io",
                 PageNumber = pageNumber,
