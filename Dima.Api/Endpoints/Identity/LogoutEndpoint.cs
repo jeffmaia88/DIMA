@@ -1,0 +1,29 @@
+﻿using Dima.Api.Common.Api;
+using Dima.Api.Models;
+using Dima.Core.Entities;
+using Dima.Core.Handlers;
+using Dima.Core.Requests.Categories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+namespace Dima.Api.Endpoints.Identity
+{
+    public class LogoutEndpoint : IEndpoint
+    {
+        public static void Map(IEndpointRouteBuilder app)
+        {
+            app.MapPost("/logout", HandleAsync)
+               .WithName("Identity/Logout")
+               .RequireAuthorization();
+
+
+        }
+
+        private static async Task<IResult> HandleAsync(SignInManager<User> signInManager)
+        {
+            await signInManager.SignOutAsync();
+            return Results.Ok();
+        }
+    }
+}
