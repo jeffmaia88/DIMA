@@ -14,7 +14,6 @@ namespace Dima.Api.Endpoints.Identity
         public static void Map(IEndpointRouteBuilder app)
         {
             app.MapPost("/logout", HandleAsync)
-               .WithName("Identity/Logout")
                .RequireAuthorization();
 
 
