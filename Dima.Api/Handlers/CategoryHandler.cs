@@ -40,7 +40,7 @@ namespace Dima.Api.Handlers
         {
             try
             {
-                var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == request.Id);
+                var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == request.Id && c.UserId == request.UserId);
                 if (category is null)
                 {
                     return new Response<Category?>(null, 404, "Categoria não encontrada");
@@ -115,7 +115,7 @@ namespace Dima.Api.Handlers
             {
                 var category = await context
                     .Categories
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);
+                    .FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId == request.UserId);
 
                 if (category is null)
                     return new Response<Category?>(null, 404, "Categoria não encontrada");

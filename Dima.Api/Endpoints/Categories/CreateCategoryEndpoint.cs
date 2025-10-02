@@ -4,6 +4,7 @@ using Dima.Core.Responses;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Handlers;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Dima.Api.Endpoints.Categories
 {
@@ -22,9 +23,9 @@ namespace Dima.Api.Endpoints.Categories
         //herda da Interface IEndpoint, aqui implementa o que será mostrado no FrontEnd
         
         //método que funciona como controller
-        private static async Task<IResult> HandleAsync([FromServices]ICategoryHandler handler, [FromBody] CreateCategoryRequest request)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, [FromServices]ICategoryHandler handler, [FromBody] CreateCategoryRequest request)
         {
-            request.UserId = "jeff@balta.io";
+            request.UserId = user.Identity?.Name ?? string.Empty;
             var result = await handler.CreateAsync(request);
             if (result.IsSuccess)
             {

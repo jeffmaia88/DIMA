@@ -8,9 +8,12 @@ namespace Dima.Api.Endpoints
     {
         public static void MapEndpoints(this WebApplication app)
         {
-            var categories= app.MapGroup("/v1/categories")
-                               .WithTags("Categories");
-                               
+//            var endpoints = app.MapGroup("");
+
+            var categories = app.MapGroup("/v1/categories")
+                               .WithTags("Categories")
+                               .RequireAuthorization(); // todas rotas de categories precisam de autenticação
+
 
             categories.MapEndpoint<CreateCategoryEndpoint>()
                      .MapEndpoint<UpdateCategoryEndpoint>()
@@ -21,7 +24,8 @@ namespace Dima.Api.Endpoints
 
 
             var transactions = app.MapGroup("v1/transactions")
-                     .WithTags("Transactions");
+                     .WithTags("Transactions")
+                     .RequireAuthorization();
 
             transactions.MapEndpoint<CreateTransactionEndpoint>()
                      .MapEndpoint<UpdateTransactionEndpoint>()

@@ -4,6 +4,7 @@ using Dima.Core.Handlers;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Dima.Api.Endpoints.Categories
 {
@@ -19,8 +20,9 @@ namespace Dima.Api.Endpoints.Categories
               .Produces<Response<Category?>>();
         }
 
-        private static async Task<IResult> HandleAsync([FromServices] ICategoryHandler handler, [FromBody] DeleteCategoryRequest request, [FromRoute]long id)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, [FromServices] ICategoryHandler handler, [FromBody] DeleteCategoryRequest request, [FromRoute]long id)
         {
+            request.UserId = user.Identity?.Name ?? string.Empty;
             request.Id = id;
             var result = await handler.DeleteAsync(request);
             if (result.IsSuccess)

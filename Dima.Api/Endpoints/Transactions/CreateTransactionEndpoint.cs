@@ -5,6 +5,7 @@ using Dima.Core.Requests.Categories;
 using Dima.Core.Requests.Transactions;
 using Dima.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Dima.Api.Endpoints.Transactions
 {
@@ -23,9 +24,9 @@ namespace Dima.Api.Endpoints.Transactions
 
 
 
-        private static async Task<IResult> HandleAsync([FromServices] ITransactionHandler handler, [FromBody] CreateTransactionRequest request)
+        private static async Task<IResult> HandleAsync(ClaimsPrincipal user, [FromServices] ITransactionHandler handler, [FromBody] CreateTransactionRequest request)
         {
-            request.UserId = "jeff@balta.io";
+            request.UserId = user.Identity?.Name ?? string.Empty;
             var result = await handler.CreateAsync(request);
             if (result.IsSuccess)
             {
